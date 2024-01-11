@@ -25,6 +25,11 @@ namespace xf {
 			uint32_t TimerMode = 0;
 			uint64_t StartTime = 0x0;
 			uint64_t CurrentTime = 0x0;
+			bool FirstRun = true;
+			bool FirstCheckPassed = false;
+			
+			float yaw;
+			float pitch;
 
             void send() {
                 mc::Minecraft* minecraft = mc::Minecraft::getInstance();
@@ -59,6 +64,27 @@ namespace xf {
 			
             void drawCoords() {
                 mc::Font* font = mc::Minecraft::getInstance()->defaultFonts;
+                mc::LocalPlayer* player = mc::Minecraft::getInstance()->thePlayer;
+				if(!FirstCheckPassed)
+				{
+					yaw = player->yaw;
+					pitch = player->pitch;
+					FirstCheckPassed = true;
+				}
+				
+				
+				if(FirstRun && ((player->motion.x != 0.0d || player->motion.z != 0.0d) || (player->yaw != yaw || player->pitch != pitch)))
+				{
+					FirstRun = false;
+					StartTime = mc::System::processTimeInMilliSecs();
+					TimerMode = 1;
+				}
+				else
+				{
+					yaw = player->yaw;
+					pitch = player->pitch;
+				}
+				
 				
 				if(TimerMode == 1)
 					CurrentTime = mc::System::processTimeInMilliSecs();

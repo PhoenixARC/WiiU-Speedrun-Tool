@@ -41,6 +41,8 @@ DECL_HOOK(onFrameInMenu, void) {
 gui->TimerMode = 0;
 gui->StartTime = 0;
 gui->CurrentTime = 0;
+gui->FirstRun = true;
+gui->FirstCheckPassed = false;
 }
 
 
