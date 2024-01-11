@@ -28,11 +28,13 @@ namespace xf {
                 mc::GlStateManager::disableFog();
             }
 
-            static void DisplayText(mc::Font* font, const mstd::wstring& text, float size, float x, float y, uint32_t color = 0xFFFFFFFF, bool normal = true) {
+            static void DisplayText(mc::Font* font, const mstd::wstring& text, float size, float x, float y, uint32_t color = 0xFFFFFFFF, bool normal = true, float rotation = 0.0f) {
                 mc::GlStateManager::enableTexture();
                 mc::GlStateManager::pushMatrix();
                 mc::GlStateManager::translatef(x, y, 0);
+                mc::GlStateManager::rotate(rotation);
                 mc::GlStateManager::scalef(size, size, 0);
+				
                 if (color == 0) color = getRainbowRGB(TextColorIndex);
                 if (normal)  font->drawShadow(text, 0, 0, color);
                 else         font->draw      (text, 0, 0, color);
@@ -241,56 +243,56 @@ namespace xf {
                 mc::GlStateManager::translatef(0, 0, 0);
                 mc::GlStateManager::color4f(1, 1, 1, 1);
                 mc::BufferBuilder* builder = mc::Tesselator::getInstance()->getBuilder();
-            
+				
                 float s = x;
                 s = s*2;
-
+				
                 builder->begin(); // TOP
                 builder->color(rgb, a);
-                builder->vertex(x,      y + sY,  z + sZ, fixCoords); // Y
-			    builder->vertex(x + sX, y + sY,  z + sZ, fixCoords); // Y
-			    builder->vertex(x + sX, y + sY,  z,      fixCoords); // Y
-			    builder->vertex(x,      y + sY,  z,      fixCoords); // Y
+                builder->vertex( x, sY, sZ, fixCoords); // Y
+			    builder->vertex(sX, sY, sZ, fixCoords); // Y
+			    builder->vertex(sX, sY,  z, fixCoords); // Y
+			    builder->vertex( x, sY,  z, fixCoords); // Y
                 builder->end();
 
                 builder->begin(); // BELOW
                 builder->color(rgb, a);
-                builder->vertex(x,       y,      z + sZ, fixCoords); // Y
-			    builder->vertex(x + sX,  y,      z + sZ, fixCoords); // Y
-			    builder->vertex(x + sX,  y,      z,      fixCoords); // Y
-			    builder->vertex(x,       y,      z,      fixCoords); // Y
+                builder->vertex( x, y, sZ, fixCoords); // Y
+			    builder->vertex(sX, y, sZ, fixCoords); // Y
+			    builder->vertex(sX, y,  z, fixCoords); // Y
+			    builder->vertex( x, y,  z, fixCoords); // Y
                 builder->end();
 
                 builder->begin(); // SOUTH = THe OTHER THING
 			    builder->color(rgb, a);
-                builder->vertex(x,      y + sY,  z + sZ, fixCoords); // X
-			    builder->vertex(x,      y + sY,  z,      fixCoords); // X
-			    builder->vertex(x,      y,       z,      fixCoords); // X
-                builder->vertex(x,      y,       z + sZ, fixCoords); // X
+                builder->vertex(x, sY, sZ, fixCoords); // X
+			    builder->vertex(x, sY,  z, fixCoords); // X
+			    builder->vertex(x,  y,  z, fixCoords); // X
+                builder->vertex(x,  y, sZ, fixCoords); // X
                 builder->end();
 
                 builder->begin(); // WEST = LEFT
                 builder->color(rgb, a);
-			    builder->vertex(x,       y + sY,  z,     fixCoords); // Z
-			    builder->vertex(x + sX,  y + sY,  z,     fixCoords); // Z
-			    builder->vertex(x + sX,  y,       z,     fixCoords); // Z
-                builder->vertex(x,       y,       z,     fixCoords); // Z
+			    builder->vertex( x, sY, z, fixCoords); // Z
+			    builder->vertex(sX, sY, z, fixCoords); // Z
+			    builder->vertex(sX,  y, z, fixCoords); // Z
+                builder->vertex( x,  y, z, fixCoords); // Z
                 builder->end();
 
                 builder->begin(); // NORTH = MIDDLE
 			    builder->color(rgb, a);
-                builder->vertex(x + sX,  y + sY,  z,      fixCoords); // X
-			    builder->vertex(x + sX,  y + sY,  z + sZ, fixCoords); // X
-                builder->vertex(x + sX,  y,       z + sZ, fixCoords); // X
-			    builder->vertex(x + sX,  y,       z,      fixCoords); // X
+                builder->vertex(sX, sY,  z, fixCoords); // X
+			    builder->vertex(sX, sY, sZ, fixCoords); // X
+                builder->vertex(sX,  y, sZ, fixCoords); // X
+			    builder->vertex(sX,  y,  z, fixCoords); // X
                 builder->end();
 
                 builder->begin(); // EAST = RIGHT
                 builder->color(rgb, a);
-                builder->vertex(x + sX,  y + sY,  z + sZ, fixCoords); // Z
-			    builder->vertex(x,       y + sY,  z + sZ, fixCoords); // Z
-			    builder->vertex(x,       y,       z + sZ, fixCoords); // Z
-			    builder->vertex(x + sX,  y,       z + sZ, fixCoords); // Z
+                builder->vertex(sX, sY, sZ, fixCoords); // Z
+			    builder->vertex( x, sY, sZ, fixCoords); // Z
+			    builder->vertex( x,  y, sZ, fixCoords); // Z
+			    builder->vertex(sX,  y, sZ, fixCoords); // Z
                 builder->end();
 
                 mc::GlStateManager::popMatrix();

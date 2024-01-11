@@ -22,8 +22,8 @@ namespace mc {
         uint32_t field_0x28;
         uint32_t field_0x2C;
         uint32_t field_0x30;
-        uint32_t currentPos;
-        uint32_t currentRot;
+        Vec3* currentPos;
+        Vec3* currentRot;
         uint32_t field_0x3C;
         uint32_t field_0x40;
         uint32_t field_0x44;

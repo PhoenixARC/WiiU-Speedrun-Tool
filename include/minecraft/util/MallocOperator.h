@@ -17,6 +17,16 @@ T* _new(size_t size) {
     return t;
 }
 
+// Permanent Allocation
+uint32_t allocPointer = 0x35000000;
+template<typename T>
+T* _new2(T t) {
+	memcpy((void*) allocPointer, &t, sizeof(T));
+	T* ret = (T*) allocPointer;
+	allocPointer += sizeof(T);
+	return ret;
+}
+
 void* operator new(size_t size) {
     return _new<char>(size);
 }

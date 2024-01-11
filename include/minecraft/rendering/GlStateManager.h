@@ -50,6 +50,10 @@ namespace mc {
         static void rotatef(float x, float y, float z, float w) {
             code::Func<void, 0x030E4B84, float, float, float, float>()(x, y, z, w);
         }
+		
+        static void rotate(float rot) {
+            code::Func<void, 0x030E4B84, float>()(rot);
+        }
 
         static void popMatrix() {
             code::Func<void, 0x030E4BD8>()();

@@ -30,6 +30,10 @@ namespace mc {
             #endif
             code::Func<void, 0x02FD2A34, BufferBuilder*, float, float, float>()(this, fx, fy, fz);
         }
+		
+        void tex2(int i) {
+            code::Func<void, 0x02FD3524, BufferBuilder*, int>()(this, i);
+        }
 
         void end() {
             code::Func<void, 0x02FD2288, BufferBuilder*>()(this);
